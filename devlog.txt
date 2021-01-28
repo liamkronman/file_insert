@@ -18,9 +18,23 @@ Each entry should begin with the following format:
 firstL -- TIMESTAMP\n ( e.g.: topherM -- 1999-12-31 23:59 )
 fi indicates we all worked together
 
-liamK (fi) -- 2021-1-21 9:59
+liamK (fi) -- 2021-1-21 09:59
 - successfully served flaskapp
 - successfully served project0
 - worked out path bugs in .wsgi and .conf files
 - created __init__.py file for p0
 - successfully ran app
+
+FI -- 2021-01-27 21:00
+- Issue encountered: app would crash randomly when hosted on IP, but not when served locally.
+- First step: remove try/except blocks from affected functions to determine source of error
+- Once completed, we checked /var/log/apache2/error.log, and repeatedly saw this error as the cause
+of our site crashing: sqlite3.OperationalError: unable to open database file, referer: http://165.22.181.161/create_account
+
+- Attempts made to fix:
+1. Restarted apache2
+2. Updated apache2, restarted
+3. Changed file permissions for blog.db and dir containing blog.db
+4. Changed ownership of directory / blog.db to www:data
+5. Added directory of current file to sys.path list, tried both with/without trailing backslash
+6. Attempted to reference entire path of blog.db ("var/www/SoftDevProj0/app/blog.db")
